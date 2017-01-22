@@ -66,24 +66,22 @@ class AdminTemplate extends FancyTreeviewClass {
 					<?php echo I18N::translate('Family tree') ?>
 				</label>
 				<div class="col-sm-4">
-					<?php echo Bootstrap4::select('NEW_FIB_TREE', Tree::getNameList(), $WT_TREE->getName(), ['id' => 'tree']) ?>
+					<?php echo Bootstrap4::select(Tree::getNameList(), $WT_TREE->getName(), ['id' => 'tree', 'name' => 'NEW_FIB_TREE']) ?>
 				</div>
 			</div>
 		</form>
 
-		<!-- PANEL GROUP ACCORDION -->
-		<div class="panel-group" id="accordion">
-			<!-- PANEL 1 -->
-			<div class="panel panel-default" id="panel1">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-target="#collapseOne" href="#">
+		<div id="accordion" role="tablist" aria-multiselectable="true">
+			<div class="card">
+				<div class="card-header" role="tab" id="card-pages-header">
+					<h5 class="mb-0">
+						<a data-toggle="collapse" data-parent="#accordion" href="#card-pages-content" aria-expanded="true" aria-controls="card-pages-content">
 							<?php echo I18N::translate('Pages') ?>
 						</a>
-					</h4>
+					</h5>
 				</div>
-				<div id="collapseOne" class="panel-collapse collapse in">
-					<div class="panel-body">
+				<div id="card-pages-content" class="collapse show" role="tabpanel" aria-labelledby="card-pages-header">
+					<div class="card-block">
 						<?php $FTV_SETTINGS = unserialize($this->getPreference('FTV_SETTINGS')); ?>
 						<?php if (empty($FTV_SETTINGS) || (!empty($FTV_SETTINGS) && !$this->searchArray($FTV_SETTINGS, 'TREE', $this->tree()->getTreeId()))): ?>
 							<div class="alert alert-info alert-dismissible" role="alert">
@@ -100,7 +98,7 @@ class AdminTemplate extends FancyTreeviewClass {
 							<form class="form-inline" method="post" name="form2">
 								<!-- SURNAME SEARCH FIELD -->
 								<div class="row form-group">
-									<label class="col-form-label">
+									<label class="col-sm-3 col-form-label">
 										<?php echo I18N::translate('Search root person') ?>
 									</label>
 									<input
@@ -112,10 +110,10 @@ class AdminTemplate extends FancyTreeviewClass {
 										type="text"
 										>
 									<label class="col-form-label">
-										<?php echo Bootstrap4::checkbox('soundex_std', I18N::translate('Russell'), true) ?>
+										<?php echo Bootstrap4::checkbox(I18N::translate('Russell'), true, ['name' => 'soundex_std']) ?>
 									</label>
 									<label class="col-form-label">
-										<?php echo Bootstrap4::checkbox('soundex_dm', I18N::translate('Daitch-Mokotoff'), true) ?>
+										<?php echo Bootstrap4::checkbox(I18N::translate('Daitch-Mokotoff'), true, ['name' => 'soundex_dm']) ?>
 									</label>
 									<button name="search" class="btn btn-primary" type="submit">
 										<i class="fa fa-search"></i>
@@ -197,7 +195,7 @@ class AdminTemplate extends FancyTreeviewClass {
 											<td id="title"></td>
 											<!-- ACCESS LEVEL -->
 											<td>
-												<?php echo Bootstrap4::select('access_level', FunctionsEdit::optionsAccessLevels(), 2); ?>
+												<?php echo Bootstrap4::select(FunctionsEdit::optionsAccessLevels(), 2, ['name' => 'access_level']); ?>
 											</td>
 											<!-- ADD BUTTON -->
 											<td>
@@ -276,7 +274,7 @@ class AdminTemplate extends FancyTreeviewClass {
 															</td>
 															<!-- ACCESS LEVEL -->
 															<td>
-																<?php echo Bootstrap4::select('access_level[' . $key . ']', FunctionsEdit::optionsAccessLevels(), $this_ITEM['ACCESS_LEVEL']) ?>
+																<?php echo Bootstrap4::select(FunctionsEdit::optionsAccessLevels(), $this_ITEM['ACCESS_LEVEL'], ['name' => 'access_level[' . $key . ']']) ?>
 															</td>
 															<!-- DELETE BUTTON -->
 															<td>
@@ -324,17 +322,16 @@ class AdminTemplate extends FancyTreeviewClass {
 				</div>
 			</div>
 
-			<!-- PANEL 2 -->
-			<div class="panel panel-default" id="panel2">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a data-toggle="collapse" data-target="#collapseTwo" href="#" class="collapsed">
+			<div class="card">
+				<div class="card-header" role="tab" id="card-options-header">
+					<h5 class="mb-0">
+						<a data-toggle="collapse" data-parent="#accordion" href="#card-options-content" aria-expanded="true" aria-controls="card-options-content">
 							<?php echo I18N::translate('Options for %s', $this->tree()->getTitleHtml()) ?>
 						</a>
-					</h4>
+					</h5>
 				</div>
-				<div id="collapseTwo" class="panel-collapse collapse">
-					<div class="panel-body">
+				<div id="card-options-content" class="collapse" role="tabpanel" aria-labelledby="card-options-header">
+					<div class="card-block">
 						<?php echo $this->addMessage('save-options', 'success', true, I18N::translate('The options for this tree are succesfully saved')) ?>
 						<?php echo $this->addMessage('reset-options', 'success', true, I18N::translate('The options for this tree are succesfully reset to the default settings')) ?>
 						<?php echo $this->addMessage('copy-options', 'success', true, I18N::translate('The options for this tree are succesfully saved and copied to all other trees')) ?>
@@ -355,7 +352,7 @@ class AdminTemplate extends FancyTreeviewClass {
 										<?php echo I18N::translate('Number of generation blocks to show') ?>
 									</label>
 									<div class="col-sm-4">
-										<?php echo Bootstrap4::select('NEW_FTV_OPTIONS[NUMBLOCKS]', array(I18N::translate('All'), '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'), $this->options('numblocks')) ?>									</div>
+										<?php echo Bootstrap4::select(array(I18N::translate('All'), '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'), $this->options('numblocks'), ['name' => 'NEW_FTV_OPTIONS[NUMBLOCKS]']) ?>									</div>
 									<p class="col-sm-8 offset-sm-4 small text-muted">
 										<?php echo /* I18N: Help text for the “Number of generation blocks to show” configuration setting */ I18N::translate('This option is especially usefull for large trees. When you notice a slow page load, here you can set the number of generation blocks to load at once to a lower level. Below the last generation block a button will appear to add the next set of generation blocks. The new blocks will be added to the blocks already loaded. Clicking on a “follow” link in the last visible generation block, will also load the next set of generation blocks.') ?>
 									</p>
@@ -413,7 +410,7 @@ class AdminTemplate extends FancyTreeviewClass {
 											<?php echo I18N::translate('Select your country') ?>
 										</label>
 										<div class="col-sm-8">
-											<?php echo Bootstrap4::select('NEW_FTV_OPTIONS[COUNTRY]', $this->getCountryList(), $this->options('country')) ?>
+											<?php echo Bootstrap4::select($this->getCountryList(), $this->options('country'), ['name' => 'NEW_FTV_OPTIONS[COUNTRY]']) ?>
 										</div>
 										<p class="col-sm-8 offset-sm-4 small text-muted">
 											<?php echo /* I18N: Help text for the “Select your country” configuration setting */ I18N::translate('If you have ticked the “Show places” option but NOT the option to abbreviate placenames, you can set your own country here. Full places will be listed on the Fancy Treeview pages, but when a place includes the name of your own country, this name will be left out. If you don’t select a country then all countries will be shown, including your own.') ?>
@@ -456,7 +453,7 @@ class AdminTemplate extends FancyTreeviewClass {
 												>
 										</div>
 										<div class="col-sm-2">
-											<?php echo Bootstrap4::select('NEW_FTV_OPTIONS[THUMB_RESIZE_FORMAT]', array('1' => I18N::translate('percent'), '2' => I18N::translate('pixels')), $this->options('thumb_resize_format')) ?>
+											<?php echo Bootstrap4::select(array('1' => I18N::translate('percent'), '2' => I18N::translate('pixels')), $this->options('thumb_resize_format'), ['name' => 'NEW_FTV_OPTIONS[THUMB_RESIZE_FORMAT]']) ?>
 										</div>
 									</div>
 								</div>
@@ -475,7 +472,7 @@ class AdminTemplate extends FancyTreeviewClass {
 										<?php echo I18N::translate('Show form to change start person') ?>
 									</label>
 									<div class="col-sm-4">
-										<?php echo Bootstrap4::select('NEW_FTV_OPTIONS[SHOW_USERFORM]', FunctionsEdit::optionsAccessLevels(), $this->options('show_userform')) ?>
+										<?php echo Bootstrap4::select(FunctionsEdit::optionsAccessLevels(), $this->options('show_userform'), ['name' => 'NEW_FTV_OPTIONS[SHOW_USERFORM]']) ?>
 									</div>
 								</div>
 								<!-- SHOW FANCY TREEVIEW ON INDI PAGE -->
