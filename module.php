@@ -153,7 +153,7 @@ class FancyTreeviewModule extends AbstractModule implements ModuleConfigInterfac
 				}
 
 				if (isset($pid)) {
-					$FTV_SETTINGS = unserialize($this->getSetting('FTV_SETTINGS'));
+					$FTV_SETTINGS = unserialize($this->getPreference('FTV_SETTINGS'));
 					if ($this->module()->searchArray($this->module()->searchArray($FTV_SETTINGS, 'TREE', Filter::getInteger('tree')), 'PID', $pid)) {
 						if ($surname) {
 							$result['error'] = I18N::translate('Error: The root person belonging to this surname already exists');
@@ -186,7 +186,7 @@ class FancyTreeviewModule extends AbstractModule implements ModuleConfigInterfac
 				break;
 
 			case 'admin_add':
-				$FTV_SETTINGS		 = unserialize($this->getSetting('FTV_SETTINGS'));
+				$FTV_SETTINGS		 = unserialize($this->getPreference('FTV_SETTINGS'));
 				$NEW_FTV_SETTINGS	 = $FTV_SETTINGS;
 				$NEW_FTV_SETTINGS[]	 = array(
 					'TREE'			 => Filter::getInteger('tree'),
@@ -195,12 +195,12 @@ class FancyTreeviewModule extends AbstractModule implements ModuleConfigInterfac
 					'ACCESS_LEVEL'	 => Filter::postInteger('access_level'),
 					'SORT'			 => Filter::postInteger('sort'),
 				);
-				$this->setSetting('FTV_SETTINGS', serialize(array_values($NEW_FTV_SETTINGS)));
+				$this->setPreference('FTV_SETTINGS', serialize(array_values($NEW_FTV_SETTINGS)));
 				Log::addConfigurationLog($this->getTitle() . ' config updated');
 				break;
 
 			case 'admin_update':
-				$FTV_SETTINGS = unserialize($this->getSetting('FTV_SETTINGS'));
+				$FTV_SETTINGS = unserialize($this->getPreference('FTV_SETTINGS'));
 
 				$new_surname		 = Filter::postArray('surname');
 				$new_access_level	 = Filter::postArray('access_level');
@@ -219,13 +219,13 @@ class FancyTreeviewModule extends AbstractModule implements ModuleConfigInterfac
 				}
 
 				$NEW_FTV_SETTINGS = $this->module()->sortArray($FTV_SETTINGS, 'SORT');
-				$this->setSetting('FTV_SETTINGS', serialize($NEW_FTV_SETTINGS));
+				$this->setPreference('FTV_SETTINGS', serialize($NEW_FTV_SETTINGS));
 				break;
 
 			case 'admin_save':
-				$FTV_OPTIONS							 = unserialize($this->getSetting('FTV_OPTIONS'));
+				$FTV_OPTIONS							 = unserialize($this->getPreference('FTV_OPTIONS'));
 				$FTV_OPTIONS[Filter::getInteger('tree')] = Filter::postArray('NEW_FTV_OPTIONS');
-				$this->setSetting('FTV_OPTIONS', serialize($FTV_OPTIONS));
+				$this->setPreference('FTV_OPTIONS', serialize($FTV_OPTIONS));
 				Log::addConfigurationLog($this->getTitle() . ' config updated');
 
 				// the cache has to be recreated because the image options could have been changed
@@ -233,11 +233,11 @@ class FancyTreeviewModule extends AbstractModule implements ModuleConfigInterfac
 				break;
 
 			case 'admin_copy':
-				$FTV_OPTIONS = unserialize($this->getSetting('FTV_OPTIONS'));
+				$FTV_OPTIONS = unserialize($this->getPreference('FTV_OPTIONS'));
 				foreach (Tree::getAll() as $tree) {
 					$FTV_OPTIONS[$tree->getTreeId()] = Filter::postArray('NEW_FTV_OPTIONS');
 				}
-				$this->setSetting('FTV_OPTIONS', serialize($FTV_OPTIONS));
+				$this->setPreference('FTV_OPTIONS', serialize($FTV_OPTIONS));
 				Log::addConfigurationLog($this->getTitle() . ' config saved and copied to all trees');
 
 				// the cache has to be recreated because the image options could have been changed
@@ -245,16 +245,16 @@ class FancyTreeviewModule extends AbstractModule implements ModuleConfigInterfac
 				break;
 
 			case 'admin_reset':
-				$FTV_OPTIONS = unserialize($this->getSetting('FTV_OPTIONS'));
+				$FTV_OPTIONS = unserialize($this->getPreference('FTV_OPTIONS'));
 				unset($FTV_OPTIONS[Filter::getInteger('tree')]);
-				$this->setSetting('FTV_OPTIONS', serialize($FTV_OPTIONS));
+				$this->setPreference('FTV_OPTIONS', serialize($FTV_OPTIONS));
 				Log::addConfigurationLog($this->getTitle() . ' options set to default');
 				break;
 
 			case 'admin_delete':
-				$FTV_SETTINGS = unserialize($this->getSetting('FTV_SETTINGS'));
+				$FTV_SETTINGS = unserialize($this->getPreference('FTV_SETTINGS'));
 				unset($FTV_SETTINGS[Filter::getInteger('key')]);
-				$this->setSetting('FTV_SETTINGS', serialize($FTV_SETTINGS));
+				$this->setPreference('FTV_SETTINGS', serialize($FTV_SETTINGS));
 				Log::addConfigurationLog($this->getTitle() . ' item deleted');
 				break;
 
@@ -391,7 +391,7 @@ class FancyTreeviewModule extends AbstractModule implements ModuleConfigInterfac
 			return $menu;
 		}
 
-		$FTV_SETTINGS = unserialize($this->getSetting('FTV_SETTINGS'));
+		$FTV_SETTINGS = unserialize($this->getPreference('FTV_SETTINGS'));
 		if (!empty($FTV_SETTINGS)) {
 			foreach ($FTV_SETTINGS as $FTV_ITEM) {
 				if ($FTV_ITEM['TREE'] == $this->tree()->getTreeId() && !empty($FTV_ITEM['PID']) && $FTV_ITEM['ACCESS_LEVEL'] >= Auth::accessLevel($this->tree())) {

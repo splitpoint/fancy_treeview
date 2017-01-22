@@ -84,7 +84,7 @@ class AdminTemplate extends FancyTreeviewClass {
 				</div>
 				<div id="collapseOne" class="panel-collapse collapse in">
 					<div class="panel-body">
-						<?php $FTV_SETTINGS = unserialize($this->getSetting('FTV_SETTINGS')); ?>
+						<?php $FTV_SETTINGS = unserialize($this->getPreference('FTV_SETTINGS')); ?>
 						<?php if (empty($FTV_SETTINGS) || (!empty($FTV_SETTINGS) && !$this->searchArray($FTV_SETTINGS, 'TREE', $this->tree()->getTreeId()))): ?>
 							<div class="alert alert-info alert-dismissible" role="alert">
 								<button type="button" class="close" data-dismiss="alert" aria-label="' . I18N::translate('close') . '">

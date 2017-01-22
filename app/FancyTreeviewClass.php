@@ -75,7 +75,7 @@ class FancyTreeviewClass extends FancyTreeviewModule {
 	 * @return type
 	 */
 	protected function options($k) {
-		$FTV_OPTIONS = unserialize($this->getSetting('FTV_OPTIONS'));
+		$FTV_OPTIONS = unserialize($this->getPreference('FTV_OPTIONS'));
 		$key		 = strtoupper($k);
 
 		if (empty($FTV_OPTIONS[$this->tree()->getTreeId()]) || (is_array($FTV_OPTIONS[$this->tree()->getTreeId()]) && !array_key_exists($key, $FTV_OPTIONS[$this->tree()->getTreeId()]))) {
