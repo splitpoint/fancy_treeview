@@ -95,46 +95,39 @@ class AdminTemplate extends FancyTreeviewClass {
 						<?php endif; ?>
 						<!-- *** FORM 2 *** -->
 						<div id="ftv-search-form" class="form-group alert alert-info">
-							<form class="form-inline" method="post" name="form2">
+							<form class="form-horizontal" method="post" name="form2">
 								<!-- SURNAME SEARCH FIELD -->
 								<div class="row form-group">
 									<label class="col-sm-3 col-form-label">
 										<?php echo I18N::translate('Search root person') ?>
 									</label>
-									<input
-										class="form-control"
-										data-autocomplete-type="SURN"
-										id="surname-search"
-										name="SURNAME"
-										placeholder="<?php echo I18N::translate('Surname') ?>"
-										type="text"
-										>
-									<label class="col-form-label">
+									<div class="col-sm-3">
+										<input
+											class="form-control"
+											data-autocomplete-type="SURN"
+											id="surname-search"
+											name="SURNAME"
+											placeholder="<?php echo I18N::translate('Surname') ?>"
+											type="text"
+											>
+									</div>
+									<div class="col-sm-3">
 										<?php echo Bootstrap4::checkbox(I18N::translate('Russell'), true, ['name' => 'soundex_std']) ?>
-									</label>
-									<label class="col-form-label">
 										<?php echo Bootstrap4::checkbox(I18N::translate('Daitch-Mokotoff'), true, ['name' => 'soundex_dm']) ?>
-									</label>
+									</div>
 									<button name="search" class="btn btn-primary" type="submit">
 										<i class="fa fa-search"></i>
 										<?php echo I18N::translate('search') ?>
 									</button>
 								</div>
 								<!-- PID SEARCH FIELD -->
-								<?php $class = I18N::direction() === 'rtl' ? 'pull-left' : 'pull-right'; ?>
-								<div class="row form-group <?php echo $class ?>">
-									<label class="col-form-label" for="pid-search">
-										<?php echo I18N::translate('Or enter an ID') ?>
+								<div class="row form-group">
+									<label class="col-sm-3 col-form-label" for="pid-search">
+										<?php echo I18N::translate('Or enter a name') ?>
 									</label>
-									<input
-										class="form-control"
-										data-autocomplete-type="INDI"
-										id="pid-search"
-										name="PID"
-										placeholder="<?php echo I18N::translate('Search ID by name') ?>"
-										type="text"
-										value=""
-										>
+									<div class="col-sm-6">
+										<?php echo FunctionsEdit::formControlIndividual(null, ['id' => 'pid-search', 'name' => 'PID']) ?>
+									</div>
 									<button name="Ok" class="btn btn-primary" type="submit">
 										<i class="fa fa-check"></i>
 										<?php echo I18N::translate('ok') ?>
