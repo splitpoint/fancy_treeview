@@ -1575,6 +1575,7 @@ class FancyTreeviewClass extends FancyTreeviewModule {
 				var ThemeID				= "' . Theme::theme()->themeId() . '";
 			', BaseController::JS_PRIORITY_HIGH);
 				$controller
+					->addExternalJavascript(WT_STATIC_URL . 'packages/jquery-ui-1.11.4/js/jquery-ui.min.js')
 					->addExternalJavascript($this->directory . '/js/admin.js');
 				break;
 
