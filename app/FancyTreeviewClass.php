@@ -1575,8 +1575,6 @@ class FancyTreeviewClass extends FancyTreeviewModule {
 				var ThemeID				= "' . Theme::theme()->themeId() . '";
 			', BaseController::JS_PRIORITY_HIGH);
 				$controller
-					->addExternalJavascript(WT_AUTOCOMPLETE_JS_URL)
-					->addInlineJavascript('autocomplete();')
 					->addExternalJavascript($this->directory . '/js/admin.js');
 				break;
 
@@ -1599,8 +1597,6 @@ class FancyTreeviewClass extends FancyTreeviewModule {
 				var TextOk				= "' . I18N::translate('ok') . '";
 				var TextCancel			= "' . I18N::translate('cancel') . '";
 			', BaseController::JS_PRIORITY_HIGH)
-					->addExternalJavascript(WT_AUTOCOMPLETE_JS_URL)
-					->addInlineJavascript('autocomplete();')
 					->addExternalJavascript($this->directory . '/js/page.js');
 
 				// some files needs an extra js script
